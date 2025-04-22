@@ -15,22 +15,23 @@ This is a simple command-line currency converter built with Python using live ex
 
 1. Clone the repository and navigate to the project folder:
 
-   cd python-practice-projects/3.json/2.live-currency-converter 
+   `cd python-practice-projects/3.json/2.live-currency-converter` 
 
 2. Create and activate a virtual environment:
 
-   python3 -m venv .venv
-   source .venv/bin/activate  # On Windows: .venv\Scripts\activate 
+   `python3 -m venv .venv`
+   `source .venv/bin/activate  # On Windows: .venv\Scripts\activate `
 
 3. Install dependencies:
 
-   pip install -r requirements.txt
+   `pip install -r requirements.txt`
 
-4. Create a .env file in the project root with your API key:
+4. From `env.example` file, copy the `.env` file and add your api key inside it:
 
-   API_KEY=your_api_key_here
+   `cp .env.example .env`
+   CURRENCY_API_KEY=your_api_key_here
 
 5. Run the script:
 
-   python main.py
+   `python main.py`
 

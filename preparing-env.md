@@ -1,13 +1,13 @@
 # -----------------------------
 # 1. Create a Virtual Environment (recommended for each project)
 # -----------------------------
-python3 -m venv .venv
+`python3 -m venv .venv`
 
 
 # -----------------------------
 # 2. Activate the Virtual Environment
 # -----------------------------
-source .venv/bin/activate
+`source .venv/bin/activate`
 
 ## What Does Activating a Virtual Environment Mean?
     When you activate a virtual environment (venv), you are telling your terminal to use the Python and dependencies installed inside that environment instead of the system-wide Python installation.
@@ -22,7 +22,7 @@ source .venv/bin/activate
 # -----------------------------
 # 3. Deactivate the Virtual Environment
 # -----------------------------
-deactivate
+`deactivate`
 
 ## What Happens When You Deactivate a Virtual Environment?
     It restores your terminal to its normal state, using the system-wide Python installation instead of the one inside .venv.
@@ -36,10 +36,10 @@ deactivate
 # 4. Freeze Current Installed Packages
 # -----------------------------
 # After installing a new package, I should run this command again
-pip freeze > requirements.txt
+`pip freeze > requirements.txt`
 
 
 # -----------------------------
 # 5. Install Packages from requirements.txt
 # -----------------------------
-pip install -r requirements.txt
+`pip install -r requirements.txt`
