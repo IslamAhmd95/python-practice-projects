@@ -32,12 +32,13 @@ In requests.get(), the params argument is used because, in a GET request, data i
 # ----------------------------------------------------------------
 
 
-# payload = {'username': 'john', 'password': 'secret'}
-# r = requests.post('https://httpbin.org/post', data=payload)
-# print(type(r.text))   # <class 'str'>
-# r_dict = r.json() 
-# print(type(r_dict))   # <class 'dict'>
-# print(r_dict['form'])
+payload = {'username': 'john', 'password': 'secret'}
+r = requests.post('https://httpbin.org/post', data=payload)
+print(type(r.text))   # <class 'str'>
+r_dict = r.json() 
+print(type(r_dict))   # <class 'dict'>
+print(r_dict)
+print(r_dict['form'])
 """
 In requests.post(), the data argument is used because, in a POST request, data is sent in the request body rather than in the URL.
 """
@@ -53,8 +54,8 @@ print(r.text)
 # ----------------------------------------------------------------
 
 
-r = requests.get('https://httpbin.org/delay/1', timeout=3)
-print(r.text)  # wait for 1 second before sending the request
+# r = requests.get('https://httpbin.org/delay/1', timeout=3)
+# print(r.text)  # wait for 1 second before sending the request
 
-r = requests.get('https://httpbin.org/delay/6', timeout=3)
-print(r.text)  # TimeoutError: The read operation timed out
+# r = requests.get('https://httpbin.org/delay/6', timeout=3)
+# print(r.text)  # TimeoutError: The read operation timed out
