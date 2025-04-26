@@ -15,7 +15,7 @@ This is a simple command-line currency converter built with Python using live ex
 
 1. Clone the repository and navigate to the project folder:
 
-   `cd python-practice-projects/3.json/2.live-currency-converter` 
+   `cd python-practice-projects/real-world-projects/1.live-currency-converter` 
 
 2. Create and activate a virtual environment:
 
@@ -29,6 +29,7 @@ This is a simple command-line currency converter built with Python using live ex
 4. From `env.example` file, copy the `.env` file and add your api key inside it:
 
    `cp .env.example .env`
+   
    CURRENCY_API_KEY=your_api_key_here
 
 5. Run the script:
