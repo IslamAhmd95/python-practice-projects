@@ -4,6 +4,7 @@ A collection of small, focused Python projects grouped by topic or a python libr
 
 
 ## Structure
+
 `python-practice-projects/<library-or-topic>/<project-name>`
 
 Each project has:
@@ -25,11 +26,12 @@ Each project has:
 
 
 ## Why This Repo?
+
 This repo is meant for:
 
 - Practicing new libraries and concepts
 
-- Building a solid portfolio of small projects
+- Building a solid portfolio with projects
 
 - Helping others learn from simple, real-world examples
 
