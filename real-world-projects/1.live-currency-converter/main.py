@@ -23,7 +23,7 @@ print(f"\nCurrency Exchange Rate Tool (Base: {base_currency})\n")
 
 while True:
 
-    currency_code = input("Enter the currency code (or 'exit' to quit): ").strip().upper()
+    currency_code = input("Enter the currency code (or type 'exit' to quit): ").strip().upper()
 
     if currency_code == "EXIT":
         print("Goodbye!")

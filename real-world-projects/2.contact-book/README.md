@@ -4,7 +4,6 @@ A simple command-line contact manager written in Python. You can **add**, **view
 
 ---
 
-
 ## 🚀 Features
 
 - ✅ Add new contact (with name, phone, and email)
@@ -13,6 +12,17 @@ A simple command-line contact manager written in Python. You can **add**, **view
 - ✏️ Update existing contact
 - ❌ Delete a contact
 - 💾 Data is saved in JSON format
+
+---
+
+## 🛠️ Tools & Concepts Used
+
+- Python Basics (functions, loops, conditionals)
+- File Handling (`open()`, `read()`, `write()`, etc.)
+- JSON Handling (`json.load()`, `json.dump()`, etc.)
+- Exception Handling (`try` / `except`)
+- Data Structures (dictionaries, lists)
+- Command-Line Interaction (input/output)
 
 ---
 

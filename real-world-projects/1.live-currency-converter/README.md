@@ -11,6 +11,25 @@ This is a simple command-line currency converter built with Python using live ex
 - Demonstrates JSON parsing using built-in Python libraries
 
 
+### 🛠️ Tools & Concepts Used
+
+- Python Basics (variables, functions, loops, conditionals)
+
+- Virtual Environment (`venv`) – to isolate project dependencies
+
+- External API Integration – using `urllib.request` to fetch live currency rates
+
+- Environment Variables – using `.env` files securely with `python-dotenv`
+
+- JSON Handling – parsing API responses using the `json` module
+
+- Error Handling – using `try/except` blocks to handle invalid user input
+
+- User Interaction – using `input()` and while loops for a CLI-based tool
+
+- Code Organization – keeping config like API keys separate from logic
+
+
 ### How to Run
 
 1. Clone the repository and navigate to the project folder:
