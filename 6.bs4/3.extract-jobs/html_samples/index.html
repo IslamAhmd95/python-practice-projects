@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Job Board</title>
+    <style>
+        .job { border: 1px solid #ccc; padding: 10px; margin: 10px; }
+        .sponsored { background-color: #ffffcc; }
+        .apply-btn { background-color: green; color: white; padding: 5px; }
+    </style>
+    <script>
+        function applyNow(jobId) {
+            alert("Applying for job " + jobId);
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Job Listings</h1>
+        <div class="filters">
+            <input type="text" placeholder="Search jobs...">
+        </div>
+    </header>
+
+    <main>
+        <div class="job-listing">
+
+            <div class="job" data-id="101">
+                <h2 class="title">Python Developer 🐍</h2>
+                <div class="company">OpenAI</div>
+                <div class="location">San Francisco, USA</div>
+                <div class="tags">
+                    <span class="tag">Full-time</span>
+                    <span class="tag">Remote</span>
+                </div>
+                <div class="meta">
+                    <span class="date">Posted: 2025-07-15</span>
+                    <a class="apply-btn" href="https://openai.com/jobs/101">Apply Now</a>
+                </div>
+            </div>
+
+            <div class="job sponsored" data-id="102">
+                <h2 class="title">Frontend Engineer</h2>
+                <div class="company">Meta</div>
+                <div class="location">Cairo, Egypt</div>
+                <div class="tags">
+                    <span class="tag">Contract</span>
+                    <span class="tag">Hybrid</span>
+                </div>
+                <div class="meta">
+                    <span class="date">Posted: 2025-07-10</span>
+                    <a class="apply-btn" href="https://meta.com/jobs/102">Apply Now</a>
+                </div>
+            </div>
+            
+            <div class="job" data-id="103">
+                <h2 class="title">Data Analyst</h2>
+                <div class="company">Google</div>
+                <div class="location">Berlin, Germany</div>
+                <div class="tags">
+                    <span class="tag">Full-time</span>
+                </div>
+                <div class="meta">
+                    <span class="date">Posted: 2025-07-12</span>
+                    <button class="apply-btn" onclick="applyNow(103)">Apply Now</button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 JobBoard Inc.</p>
+    </footer>
+</body>
+</html>
