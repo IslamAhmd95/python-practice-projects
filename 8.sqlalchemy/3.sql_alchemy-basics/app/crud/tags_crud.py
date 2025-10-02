@@ -1,3 +1,4 @@
+from sqlalchemy import select
 from app.database import sessionLocal
 from app.models.tag import Tag
 
@@ -11,7 +12,7 @@ def create_tag(data):
 
 def update_tag(tag_id, data):
     with sessionLocal() as session:
-        tag = session.query(Tag).filter(Tag.id == tag_id).first()
+        tag = session.get(Tag, tag_id)
         if not tag:
             raise ValueError("Tag not found")
         tag.name = data['name']
@@ -21,7 +22,7 @@ def update_tag(tag_id, data):
     
 def delete_tag(tag_id):
     with sessionLocal() as session:
-        tag = session.query(Tag).filter(Tag.id == tag_id).first()
+        tag = session.scalar(select(Tag).where(Tag.id == tag_id))
         if not tag:
             raise ValueError("Tag not found")
         session.delete(tag)
@@ -30,7 +31,7 @@ def delete_tag(tag_id):
     
 def get_all_tags():
     with sessionLocal() as session:
-        tags = session.query(Tag).all()
+        tags = session.scalars(select(Tag)).all()
         return tags
 
 def get_specific_tag(tag_id):

@@ -1,3 +1,4 @@
+from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 from app.database import sessionLocal
 from app.models.user import User
@@ -34,7 +35,7 @@ def delete_user(user_id):
 
 def get_all_users():
     with sessionLocal() as session:
-        return session.query(User).all()
+        return session.execute(select(User)).scalars().all()
     
 def get_specific_user(user_id):
     with sessionLocal() as session:
@@ -47,10 +48,11 @@ def follow_user(user_id, user_to_follow_id):
     with sessionLocal() as session:
         # user = session.get(User, user_id)
         user = (
-            session.query(User)
+            session.scalar(
+            select(User)
             .options(joinedload(User.following))
-            .filter(User.id == user_id)
-            .first()
+            .where(User.id == user_id)
+            )
         )
         user_to_follow = session.get(User, user_to_follow_id)
         if not user:

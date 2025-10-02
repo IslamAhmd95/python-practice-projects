@@ -8,3 +8,5 @@ class Tag(BaseModel):
 
     name: Mapped[str] = mapped_column(String(50), nullable=False, unique=True)
     
+    def __repr__(self) -> str:
+        return f"Tag(name={self.name})"

@@ -115,7 +115,7 @@ post = get_specific_post(new_post.id)
 print("Specific post:", post.title, post.content)
 
 # Get post comments
-comments = get_post_comments(5)
+comments = get_post_comments(20)
 print("Comments:", [c.content for c in comments])
 
 # Delete post

@@ -1,3 +1,4 @@
+from sqlalchemy import select
 from app.database import sessionLocal
 from app.models.post import Post
 from app.models.user import User
@@ -16,7 +17,7 @@ def create_post(data):
 
 def update_post(post_id, data):
     with sessionLocal() as session:
-        post = session.query(Post).filter(Post.id == post_id).first()
+        post = session.get(Post, post_id)
         if not post:
             raise ValueError("Post not found")
         if "title" in data:
@@ -29,7 +30,7 @@ def update_post(post_id, data):
     
 def delete_post(post_id):
     with sessionLocal() as session:
-        post = session.query(Post).filter(Post.id == post_id).first()
+        post = session.get(Post, post_id)
         if not post:
             raise ValueError("Post not found")
         session.delete(post)
@@ -38,7 +39,7 @@ def delete_post(post_id):
     
 def get_all_posts():
     with sessionLocal() as session:
-        posts = session.query(Post).all()
+        posts = session.scalars(select(Post)).all()
         return posts
 
 def get_specific_post(post_id):
@@ -50,10 +51,10 @@ def get_specific_post(post_id):
 
 def get_post_comments(post_id):
     with sessionLocal() as session:
-        post = (
-            session.query(Post)
-            .filter(Post.id == post_id).first()
-        )
+        post = (    
+            session.scalar(select(Post)
+            .where(Post.id == post_id))
+        )   # the parentheses for writing the code on multiple lines
         if not post:
             raise ValueError("Post not found")
         return post.comments

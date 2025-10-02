@@ -1,3 +1,4 @@
+from sqlalchemy import select
 from app.database import sessionLocal
 from app.models.comment import Comment
 from app.models.post import Post
@@ -40,7 +41,7 @@ def delete_comment(comment_id):
     
 def get_all_comments():
     with sessionLocal() as session:
-        comments = session.query(Comment).all()
+        comments = session.scalars(select(Comment)).all()
         return comments
 
 def get_specific_comment(comment_id):
