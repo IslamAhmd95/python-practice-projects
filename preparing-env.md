@@ -21,7 +21,7 @@
 # -----------------------------
 # 3. Upgrade pip
 # -----------------------------
-`pip3 install --upgrade pip`
+`pip install --upgrade pip`
 
 ## Why upgrade pip inside a new venv?
     When you create a virtual environment (python3 -m venv .venv), the pip that comes with it is often outdated.
@@ -48,10 +48,10 @@
 # 5. Freeze Current Installed Packages
 # -----------------------------
 # After installing a new package, I should run this command again
-`pip3 freeze > requirements.txt`
+`pip freeze > requirements.txt`
 
 
 # -----------------------------
 # 6. Install Packages from requirements.txt
 # -----------------------------
-`pip3 install -r requirements.txt`
+`pip install -r requirements.txt`
