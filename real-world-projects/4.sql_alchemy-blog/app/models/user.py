@@ -1,9 +1,17 @@
-from app.database import BaseModel
+from enum import Enum
+
 from sqlalchemy import String
 from sqlalchemy.orm import relationship, Mapped, mapped_column, foreign
-from .user_followers import user_followers
-from .comment_likes import comment_likes
-from .post_likes import post_likes
+
+from app.core.database import BaseModel
+from app.models.user_followers import user_followers
+from app.models.comment_likes import comment_likes
+from app.models.post_likes import post_likes
+
+
+class RoleEnum(Enum):
+    ADMIN = "admin"
+    USER = "user"
 
 
 class User(BaseModel):
@@ -12,6 +20,8 @@ class User(BaseModel):
     name: Mapped[str] = mapped_column(String(50))
     username: Mapped[str] = mapped_column(String(50), unique=True)
     email: Mapped[str] = mapped_column(String(50), unique=True)
+    password: Mapped[str] = mapped_column(String(255), nullable=True)
+    role: Mapped[RoleEnum] = mapped_column(String(20), default=RoleEnum.USER.value)
 
     profile = relationship("Profile", cascade="all, delete-orphan", back_populates="user", single_parent=True, uselist=False, lazy="joined")
     posts = relationship("Post", lazy="select", cascade="all, delete-orphan", backref="user")

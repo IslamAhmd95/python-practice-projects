@@ -4,21 +4,33 @@
 from faker import Faker
 import random
 from sqlalchemy import select
-from app.database import sessionLocal, BaseModel, engine
-from app.models.user import User
+from app.core.database import sessionLocal, BaseModel, engine
+from app.models.user import User, RoleEnum
 from app.models.post import Post
 from app.models.profile import Profile
 from app.models.tag import Tag
 from app.models.comment import Comment
+from app.core.hashing import hash_password
 
-import app.events      # It executes the entire file once (top to bottom) and activates all event listeners for your entire application.
+import app.core.events      # It executes the entire file once (top to bottom) and activates all event listeners for your entire application.
 
 
 faker = Faker()
 
 def seed_users(session):
+    
+    admins = [
+        User(name="Islam Ahmed", username="IslamAhmd", email="Islam@gmail.com", password=hash_password("adminpass"), role=RoleEnum.ADMIN.value),
+        User(name="Admin User", username="adminuser", email="Admin@gmail.com", password=hash_password("adminpass"), role=RoleEnum.ADMIN.value)
+    ]
+
+    for admin in admins:
+        profile = Profile(bio=faker.paragraph(nb_sentences=3), user=admin)
+        session.add(profile)
+
+
     users = [
-        User(name=faker.name(), username=faker.unique.user_name(), email=faker.email())
+        User(name=faker.name(), username=faker.unique.user_name(), email=faker.email(), password=hash_password("password123"))
         for _ in range(50)
     ]
 
@@ -27,6 +39,7 @@ def seed_users(session):
         session.add(profile)
 
 
+    session.add_all(admins)
     session.add_all(users)
     session.flush()  # ensures the database assigns primary keys (IDs) to all the newly created objects without committing the transaction.
 

@@ -1,7 +1,8 @@
-from app.database import BaseModel
 from sqlalchemy import Integer, String, ForeignKey, Text
 from sqlalchemy.orm import relationship, Mapped, mapped_column
-from .post_likes import post_likes
+
+from app.core.database import BaseModel
+from app.models.post_likes import post_likes
 
 
 class Post(BaseModel):

@@ -1,6 +1,7 @@
 from sqlalchemy import Table, Column, ForeignKey, DateTime
 from sqlalchemy.sql import func
-from app.database import BaseModel
+
+from app.core.database import BaseModel
 
 comment_likes = Table("comment_likes", BaseModel.metadata,
                 Column('user_id', ForeignKey("users.id", ondelete = "CASCADE", onupdate = "CASCADE"), primary_key=True), 

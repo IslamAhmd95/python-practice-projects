@@ -1,6 +1,7 @@
-from app.database import BaseModel
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column
+
+from app.core.database import BaseModel
 
 
 class Tag(BaseModel):

@@ -1,7 +1,7 @@
 from sqlalchemy import event
 from sqlalchemy.orm import Mapper
 from datetime import datetime
-from .database import BaseModel
+from app.core.database import BaseModel
 
 
 def _set_created_at(mapper, connection, target):  # the _ means this function is private to this module

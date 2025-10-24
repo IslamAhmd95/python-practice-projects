@@ -1,5 +1,6 @@
 from sqlalchemy import Table, Column, Integer, ForeignKey
-from app.database import BaseModel
+
+from app.core.database import BaseModel
 
 
 user_followers = Table("user_followers", BaseModel.metadata,

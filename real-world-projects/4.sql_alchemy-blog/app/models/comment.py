@@ -1,7 +1,8 @@
-from app.database import BaseModel
 from sqlalchemy import Integer, ForeignKey, Text
 from sqlalchemy.orm import relationship, Mapped, mapped_column
-from .comment_likes import comment_likes
+
+from app.core.database import BaseModel
+from app.models.comment_likes import comment_likes
 
 
 class Comment(BaseModel):
