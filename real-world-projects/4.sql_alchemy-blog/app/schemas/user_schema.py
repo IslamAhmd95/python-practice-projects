@@ -5,7 +5,6 @@ class ReadUserProfile(BaseModel):
 
     bio: str | None = None
 
-
 class ReadUser(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -14,3 +13,25 @@ class ReadUser(BaseModel):
     username: str
     email: EmailStr
     profile: ReadUserProfile
+
+class AfterDeleteUser(BaseModel):
+    message: str
+
+class UpdateMe(BaseModel):
+    name: str | None = None
+    username: str | None = None
+    email: EmailStr | None = None
+    bio: str | None = None
+
+class AfterUpdateMe(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    user: ReadUser
+    message: str
+
+class UpdatePassword(BaseModel):
+    current_password: str
+    new_password: str
+
+class AfterUpdatePassword(BaseModel):
+    message: str

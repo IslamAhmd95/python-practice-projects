@@ -1,4 +1,3 @@
-import os
 from sqlalchemy import create_engine, DateTime, func
 from sqlalchemy.orm import DeclarativeBase, sessionmaker, Mapped, mapped_column
 from app.core.config import settings

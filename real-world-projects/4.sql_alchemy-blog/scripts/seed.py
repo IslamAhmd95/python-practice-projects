@@ -17,8 +17,7 @@ import app.core.events      # It executes the entire file once (top to bottom) a
 
 faker = Faker()
 
-def seed_users(session):
-    
+def seed_admins(session):
     admins = [
         User(name="Islam Ahmed", username="IslamAhmd", email="Islam@gmail.com", password=hash_password("adminpass"), role=RoleEnum.ADMIN.value),
         User(name="Admin User", username="adminuser", email="Admin@gmail.com", password=hash_password("adminpass"), role=RoleEnum.ADMIN.value)
@@ -27,8 +26,13 @@ def seed_users(session):
     for admin in admins:
         profile = Profile(bio=faker.paragraph(nb_sentences=3), user=admin)
         session.add(profile)
+        
+    session.add_all(admins)
+    session.commit()
 
 
+def seed_users(session):
+    
     users = [
         User(name=faker.name(), username=faker.unique.user_name(), email=faker.email(), password=hash_password("password123"))
         for _ in range(50)
@@ -39,7 +43,6 @@ def seed_users(session):
         session.add(profile)
 
 
-    session.add_all(admins)
     session.add_all(users)
     session.flush()  # ensures the database assigns primary keys (IDs) to all the newly created objects without committing the transaction.
 
@@ -114,13 +117,14 @@ def fresh():
 
 
 def run():
-    fresh()
+    # fresh()
     with sessionLocal() as session:
-        seed_users(session)
-        seed_tags(session)
-        seed_posts(session)
-        seed_comments(session)
-        seed_likes(session)
+        seed_admins(session)
+        # seed_users(session)
+        # seed_tags(session)
+        # seed_posts(session)
+        # seed_comments(session)
+        # seed_likes(session)
 
 if __name__ == "__main__":
     run()
