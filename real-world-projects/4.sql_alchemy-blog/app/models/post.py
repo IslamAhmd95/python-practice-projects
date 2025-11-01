@@ -14,7 +14,10 @@ class Post(BaseModel):
     content: Mapped[str] = mapped_column(Text, nullable=False)
     author_id: Mapped[int] = mapped_column(Integer, ForeignKey("users.id", ondelete="CASCADE", onupdate="CASCADE"))
 
-    tags = relationship("Tag", secondary="posts_tags", backref="posts")
+    tags: Mapped[list["Tag"]] = relationship(  # pyright: ignore[reportUndefinedVariable]
+        secondary="posts_tags", 
+        back_populates="posts"
+    )  
     comments = relationship("Comment", cascade="all, delete-orphan", backref="post")
     liked_by = relationship(
         "User",

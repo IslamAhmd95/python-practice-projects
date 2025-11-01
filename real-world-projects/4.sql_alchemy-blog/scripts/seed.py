@@ -5,12 +5,14 @@ from faker import Faker
 import random
 from sqlalchemy import select
 from app.core.database import sessionLocal, BaseModel, engine
-from app.models.user import User, RoleEnum
+from app.models.user import User
 from app.models.post import Post
 from app.models.profile import Profile
 from app.models.tag import Tag
 from app.models.comment import Comment
 from app.core.hashing import hash_password
+from app.core.enums import RoleEnum
+
 
 import app.core.events      # It executes the entire file once (top to bottom) and activates all event listeners for your entire application.
 
@@ -19,8 +21,8 @@ faker = Faker()
 
 def seed_admins(session):
     admins = [
-        User(name="Islam Ahmed", username="IslamAhmd", email="Islam@gmail.com", password=hash_password("adminpass"), role=RoleEnum.ADMIN.value),
-        User(name="Admin User", username="adminuser", email="Admin@gmail.com", password=hash_password("adminpass"), role=RoleEnum.ADMIN.value)
+        User(name="Islam Ahmed", username="IslamAhmd", email="Islam@gmail.com", password=hash_password("adminpass"), role=RoleEnum.ADMIN),
+        User(name="Admin User", username="adminuser", email="Admin@gmail.com", password=hash_password("adminpass"), role=RoleEnum.ADMIN)
     ]
 
     for admin in admins:

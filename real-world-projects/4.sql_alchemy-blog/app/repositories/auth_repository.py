@@ -36,10 +36,10 @@ def signup(data: SignUpSchema, db: Session):
         db.add(user)
         db.commit()
         db.refresh(user)
-        return {"user": user, "message": "User created successfully"}
+        return user
     except Exception as e:
         db.rollback()
-        return HTTPException(
+        raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail= f"An unexpected error occurred: {str(e)}"
         ) 
@@ -63,4 +63,5 @@ def login(data: LoginSchema, db: Session):
     access_token = create_access_token(
         data={"sub": user.email, "role": user.role}, expires_delta=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     )
-    return {"user": user.__dict__, "access_token": access_token, "token_type": "bearer"}
+    return user, access_token 
+    

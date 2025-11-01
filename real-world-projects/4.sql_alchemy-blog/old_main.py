@@ -15,9 +15,9 @@ from app.crud.comments_crud import (
     get_all_comments, get_specific_comment
 )
 from app.crud.likes_crud import toggle_like_post, toggle_like_comment
-from app.hashing import hash_password
+from app.core.hashing import hash_password
 
-import app.events      # It executes the entire file once (top to bottom) and activates all event listeners for your entire application.
+import app.core.events      # It executes the entire file once (top to bottom) and activates all event listeners for your entire application.
 
 
 ## User Crud Operations
