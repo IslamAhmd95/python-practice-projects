@@ -1,5 +1,5 @@
 from UserManager import UserManager
-import pytest
+import pytest   # pyright: ignore[reportMissingImports]
 
 @pytest.fixture
 def user_manager():

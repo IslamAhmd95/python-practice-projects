@@ -8,6 +8,7 @@ def divide(numerator, denominator):
         raise ValueError("Can't divide by zero")
     return numerator / denominator
 
+
 def report():
     # stdout same like "normal speaking voice"
     print("success")

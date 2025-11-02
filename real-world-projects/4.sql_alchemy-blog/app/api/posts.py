@@ -87,13 +87,13 @@ def delete_post(
 @router.post("/{post_id}/like", response_model=LikeResponseSchema, status_code=status.HTTP_200_OK)
 def like_post(post_id: int, current_user = Depends(get_current_user), db: Session = Depends(get_db)):
     post_repository.like_post(db, post_id, current_user.id)
-    return {"message": "Post liked successfully"}
+    return {"message": "You liked the post successfully"}
 
 # Unlike a post
 @router.delete("/{post_id}/unlike", response_model=LikeResponseSchema, status_code=status.HTTP_200_OK)
 def unlike_post(post_id: int, current_user = Depends(get_current_user), db: Session = Depends(get_db)):
     post_repository.unlike_post(db, post_id, current_user.id)
-    return {"message": "Post unliked successfully"}
+    return {"message": "You unliked the post successfully"}
 
 
 # Get likes for a specific post

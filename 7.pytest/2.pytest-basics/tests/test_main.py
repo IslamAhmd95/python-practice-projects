@@ -1,5 +1,5 @@
 import main
-import pytest
+import pytest   # pyright: ignore[reportMissingImports]
 
 
 @pytest.mark.parametrize("x, y, expected", [

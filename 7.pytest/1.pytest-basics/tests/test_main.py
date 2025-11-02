@@ -1,5 +1,5 @@
 import main
-import pytest
+import pytest   # pyright: ignore[reportMissingImports]
 
 
 
@@ -46,7 +46,6 @@ def test_sub_should_return_positive_result(x, y):
 ])
 def test_divide_normal_cases(numerator, denominator, expected):
     assert expected == main.divide(numerator, denominator)
-
 
 
 

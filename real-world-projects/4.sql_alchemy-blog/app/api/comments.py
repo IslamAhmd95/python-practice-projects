@@ -41,13 +41,15 @@ def delete_comment(comment_id: int, current_user: ReadUser = Depends(get_current
 # like a comment
 @router.post('/{comment_id}/like', status_code=status.HTTP_200_OK, response_model=LikeCommentSchema)
 def like_comment(comment_id: int, current_user: ReadUser = Depends(get_current_user), db: Session = Depends(get_db)):
-    return comment_repository.like_comment(db, comment_id, current_user)
+    comment_repository.like_comment(db, comment_id, current_user)
+    return {"message": "You liked the comment successfully"}
+
 
 # delete a comment
 @router.delete('/{comment_id}/unlike', status_code=status.HTTP_200_OK, response_model=LikeCommentSchema)
 def unlike_comment(comment_id: int, current_user: ReadUser = Depends(get_current_user), db: Session = Depends(get_db)):
     comment_repository.unlike_comment(db, comment_id, current_user)
-    return {"message": "Comment liked successfully"}
+    return {"message": "You unliked the comment successfully"}
 
 # get comment likes
 @router.get('/{comment_id}/likes', status_code=status.HTTP_200_OK, response_model=GetCommentLikesSchema)

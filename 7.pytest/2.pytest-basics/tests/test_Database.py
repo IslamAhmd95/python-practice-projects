@@ -1,4 +1,4 @@
-import pytest
+import pytest  # pyright: ignore[reportMissingImports]
 from Database import Database
 
 
@@ -51,4 +51,3 @@ def test_del_user(db):
     db.add_user(1, "islam")
     db.delete_user(1)
     assert db.get_user(1) is None
-

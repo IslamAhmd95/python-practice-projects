@@ -50,8 +50,8 @@ def update(db, comment_id: int, comment_data: UpdateCommentSchema, user_id: int)
         db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to update comment"
-        ) from e
+            detail=f"Failed to update comment: {str(e)}"
+        )
     
 
 def delete(db: Session, comment_id: int, user_id: int):
@@ -76,8 +76,8 @@ def delete(db: Session, comment_id: int, user_id: int):
         db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to delete comment"
-        ) from e    
+            detail=f"Failed to delete comment: {str(e)}"
+        ) 
     
 
 def like_comment(db: Session, comment_id: int, user: ReadUser):
@@ -101,8 +101,8 @@ def like_comment(db: Session, comment_id: int, user: ReadUser):
         db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to like comment"
-        ) from e
+            detail=f"Failed to like comment: {str(e)}"
+        )
     
 
 def unlike_comment(db: Session, comment_id: int, current_user: ReadUser):
@@ -122,13 +122,12 @@ def unlike_comment(db: Session, comment_id: int, current_user: ReadUser):
     try:
         comment.liked_by.remove(current_user)
         db.commit()
-        return {"message": "Comment unliked successfully"}
     except Exception as e:
         db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to unlike comment"
-        ) from e
+            detail=f"Failed to unlike comment: {str(e)}"
+        )
     
 
 def get_comment_likes(db, comment_id):

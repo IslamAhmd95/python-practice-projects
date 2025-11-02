@@ -1,6 +1,6 @@
 import api
 from unittest.mock import patch
-import pytest
+import pytest  # pyright: ignore[reportMissingImports]
 
 
 # Define the @patch decorators in the same order as your real function uses the dependencies,
@@ -40,8 +40,7 @@ def test_get_user_data_status_code(mock_get):
 """
 What is Mock?
     Mocking is a technique used in testing to:
-        - Replace real objects or functions (like APIs, databases, file access)
-        - With fake (mocked) versions that simulate behavior
+        - Replace real objects or functions (like APIs, databases, file access) with fake (mocked) versions that simulate behavior
 
 
 Related mock assertions:

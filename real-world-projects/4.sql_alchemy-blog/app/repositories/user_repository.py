@@ -57,13 +57,14 @@ def update_me(db: Session, user_id: int, data) -> User:
     try:
         update_data = data.model_dump(exclude_unset=True)
 
-        if "email" in update_data and check_email_exists(update_data.email, db):
+        if "email" in update_data and check_email_exists(update_data['email'], db, user):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Email already registered"
             )
+            
         
-        if "username" in update_data and check_username_exists(update_data.username, db):
+        if "username" in update_data and check_username_exists(update_data['username'], db, user):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Username already registered"
@@ -83,7 +84,7 @@ def update_me(db: Session, user_id: int, data) -> User:
         return user
     except Exception as e:
         db.rollback()
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="An error occurred while updating the user.") from e
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"An error occurred while updating the user: {str(e)}.")
 
 
 def update_password(db: Session, user_id: int, data: UpdatePassword) -> dict:
@@ -99,7 +100,7 @@ def update_password(db: Session, user_id: int, data: UpdatePassword) -> dict:
         db.commit()
     except Exception as e:
         db.rollback()
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="An error occurred while updating the password.") from e
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"An error occurred while updating the password: {str(e)}.")
     
 
 def get_all_users(db: Session, filters: UserFilter):
@@ -150,7 +151,7 @@ def follow_user(db: Session, current_user, target_user_id: int) -> dict:
         return target_user
     except Exception as e:
         db.rollback()
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="An error occurred while following the user.") from e
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"An error occurred while following the user: {str(e)}.")
     
 
 def unfollow_user(db: Session, current_user, target_user_id: int) -> dict:
@@ -169,7 +170,7 @@ def unfollow_user(db: Session, current_user, target_user_id: int) -> dict:
         return target_user
     except Exception as e:
         db.rollback()
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="An error occurred while following the user.") from e
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"An error occurred while following the user: {str(e)}.")
 
 
 def delete_user(db: Session, user_id: int) -> str:
@@ -186,5 +187,5 @@ def delete_user(db: Session, user_id: int) -> str:
         return user
     except Exception as e:
         db.rollback()
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="An error occurred while deleting the user.") from e
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"An error occurred while deleting the user: {str(e)}.")
 

@@ -31,7 +31,7 @@ def create(db: Session, data: CreateTagSchema) -> dict:
         return new_tag
     except Exception as e:
         db.rollback()
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to create tag") from e
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to create tag: {str(e)}")
 
 
 def get_by_id(db: Session, tag_id: int) -> Tag | None:
@@ -61,7 +61,7 @@ def update(db: Session, tag_id: int, data: CreateTagSchema) -> dict:
         return tag
     except Exception as e:
         db.rollback()
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to update tag") from e
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to update tag: {str(e)}")
 
 
 def delete(db: Session, tag_id: int) -> dict:

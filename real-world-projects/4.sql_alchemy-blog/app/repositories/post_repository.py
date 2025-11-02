@@ -62,7 +62,7 @@ def create_post(db: Session, data, current_user):
         return new_post
     except Exception as e:
         db.rollback()
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to create post") from e
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to create post: {str(e)}")
 
 
 
@@ -88,7 +88,7 @@ def update(db: Session, post_id: int, data, current_user):
         return post
     except Exception as e:
         db.rollback()
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to update post") from e
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to update post: {str(e)}")
 
 
 
@@ -106,7 +106,7 @@ def delete(db: Session, post_id: int, current_user):
         return post
     except Exception as e:
         db.rollback()
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to delete post") from e
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to delete post: {str(e)}")
 
 
 def like_post(db: Session, post_id: int, user_id: int):
@@ -120,19 +120,19 @@ def like_post(db: Session, post_id: int, user_id: int):
 
     stmt = db.query(post_likes).filter_by(post_id=post_id, user_id=user_id)
     if db.query(stmt.exists()).scalar():
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Post already liked")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="You already liked this post.")
     try:
         db.execute(post_likes.insert().values(post_id=post_id, user_id=user_id))
         db.commit()
     except Exception as e:
         db.rollback()
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to like post") from e
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to like post: {str(e)}")
 
 
 def unlike_post(db: Session, post_id: int, user_id: int):
     stmt = db.query(post_likes).filter_by(post_id=post_id, user_id=user_id)
     if not db.query(stmt.exists()).scalar():
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Post not liked yet")
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="You already did not like this post")
 
     try:
         db.execute(post_likes.delete().where(
@@ -141,7 +141,7 @@ def unlike_post(db: Session, post_id: int, user_id: int):
         db.commit()
     except Exception as e:
         db.rollback()
-        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail="Failed to unlike post") from e
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Failed to unlike post: {str(e)}")
 
 
 def get_post_likes(db: Session, post_id: int):
@@ -208,5 +208,5 @@ def create_comment(db: Session, comment_data: CreateCommentSchema, post_id: int,
         db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Failed to create comment"
-        ) from e
+            detail=f"Failed to create comment: {str(e)}"
+        )
