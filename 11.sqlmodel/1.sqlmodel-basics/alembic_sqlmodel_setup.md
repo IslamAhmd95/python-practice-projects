@@ -1,6 +1,6 @@
-## SQLAlchemy + Alembic Project Setup Guide
+## SQLModel + Alembic Project Setup Guide
 
-This is my personal starter guide to quickly spin up a new project using SQLAlchemy + Alembic.
+This is my personal starter guide to quickly spin up a new project using SQLModel + Alembic.
 I’ll follow these steps whenever I create a new project.
 
 
@@ -8,8 +8,8 @@ I’ll follow these steps whenever I create a new project.
 
     `python3 -m venv .venv`
     `source .venv/bin/activate`
-    `pip install --upgrade pip`
-    `pip freeze > requiremens.txt`
+    `pip3 install --upgrade pip`
+    `pip3 freeze > requiremens.txt`
 
     or
 
@@ -19,13 +19,12 @@ I’ll follow these steps whenever I create a new project.
 
 ### Step 2 — Install Required Packages
 
-    `pip install sqlalchemy alembic psycopg2-binary PyMySQL python-dotenv`
-    `pip freeze > requiremens.txt`
+    `pip3 install sqlmodel alembic psycopg2-binary PyMySQL python-dotenv`
+    `pip3 freeze > requiremens.txt`
 
     or
 
-    `uv add sqlalchemy alembic psycopg2-binary PyMySQL python-dotenv`
-
+    `uv add sqlmodel alembic psycopg2-binary PyMySQL python-dotenv`
 
     - psycopg2-binary → PostgreSQL driver
         `postgresql+psycopg2://user:password@localhost:5432/mydb`
@@ -50,19 +49,22 @@ I’ll follow these steps whenever I create a new project.
 
     2. Create app/database.py:
         
-    3. Edit `alembic/env.py`
+    3. Edit `alembic/env.py`, add these lines
         `
-            from app.database import Base, DATABASE_URL
-            from app import models  # ensures models are imported
+            from sqlmodel import SQLModel
+
+            from app.database import DATABASE_URL
+            import app.models  # loads models so Alembic sees them
 
             config.set_main_option("sqlalchemy.url", DATABASE_URL)
-            target_metadata = Base.metadata
+
+            target_metadata = SQLModel.metadata
         `
 
         This ensures Alembic reads real database URL & scans all models before generating migrations.
 
     4. In alembic.ini, keep a dummy URL (will be overridden by env.py).
-        `sqlalchemy.url = driver://user:pass@localhost/dbname`
+        `SQLModel.url = driver://user:pass@localhost/dbname`
 
 ### Step 5 — Add Your First Model
 
@@ -71,7 +73,9 @@ I’ll follow these steps whenever I create a new project.
     3. Create migration file by running this command
         `alembic revision --autogenerate -m "create users table"`
         This creates a migration file in alembic/versions/
-    4. Run migration
+    4. "optionally, not on all cases" you may need to import `sqlmodel` in the revision
+        `import sqlmodel`
+    5. Run migration
         `alembic upgrade head`
 
 
@@ -95,7 +99,7 @@ I’ll follow these steps whenever I create a new project.
     - app/
 
         - Core application code.
-        - crud/ → business logic (create/read/update/delete functions).
+        - api/ → business logic (create/read/update/delete functions).
         - models/ → ORM models (User, Post, etc.).
         - database.py → central DB config (engine, SessionLocal).
         - __init__.py → imports all models so Alembic can detect them.
@@ -114,7 +118,7 @@ I’ll follow these steps whenever I create a new project.
 
         - Entry point — e.g. testing CRUD, or starting an API.
 
-    - requirements.txt
+    - requirements.txt "pip not uv"
 
         - Exact list of installed dependencies (pip freeze > requirements.txt).
         - Commit this.
@@ -145,7 +149,7 @@ I’ll follow these steps whenever I create a new project.
         - by importing models inside app/models/__init__.py and then importing app.models in alembic/env.py, you ensure that Alembic loads all your models and sees them in Base.metadata.
         - Now when Alembic runs 
         `alembic revision --autogenerate` 
-        , it sees User etc., because they’re imported via the models package, and attached to Base.metadata.
+        , it sees User etc., because they’re imported via the models package, and attached to SQLModel.metadata.
 
     2.
         - Put your real DB URL in .env.
@@ -159,7 +163,7 @@ I’ll follow these steps whenever I create a new project.
         - Generate Migration
             `alembic revision --autogenerate -m "add age column to users"`
 
-            - Alembic will compare Base.metadata (your models) with the actual DB schema.
+            - Alembic will compare SQLModel.metadata (your models) with the actual DB schema.
             - It will generate a new file inside alembic/versions/ with the necessary ALTER TABLE statement.
         - Apply the Migration
             `alembic upgrade head`
