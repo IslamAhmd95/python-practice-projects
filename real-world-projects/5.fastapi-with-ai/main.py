@@ -1,13 +1,9 @@
-import os
-
 from fastapi import FastAPI
 from pydantic import BaseModel
 from dotenv import load_dotenv
 
 from src.ai.gemini import Gemini
-
-
-load_dotenv()
+from src.core.config import settings
 
 
 # Initialize application
@@ -20,13 +16,13 @@ app = FastAPI(
 # Ai Configuration
 def load_system_prompt():
     try:
-        with open('src/prompts/system_prompt.md') as f:
+        with open('src/prompts/system-prompt.md') as f:
             return f.read()
     except Exception as e:
         raise Exception(f'Error: {str(e)}')
 
 system_prompt = load_system_prompt()
-gemini_api_key = os.getenv('GEMINI_API_KEY')
+gemini_api_key = settings.GEMINI_API_KEY
 
 if not gemini_api_key:
     raise ValueError("GEMINI_API_KEY environment variable not set.")
