@@ -1,46 +1,30 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
-from pydantic import BaseModel
-from dotenv import load_dotenv
 
-from src.ai.gemini import Gemini
-from src.core.config import settings
+from src.api.auth import router as auth_routers
+from src.api.chat import router as chat_routers
 
 
-# Initialize application
+@asynccontextmanager  # Special decorator to manage the lifecycle to create an asynchronous context manager
+async def lifespan(app: FastAPI):   # means the whole lifespan of my app from start to finish
+    # SQLModel.metadata.create_all(engine)   # Before API starts (creates tables) , removed if using alembic
+    print("DB ready.")   # happens at startup
+    yield     # app is running here normally (requests)
+    print("Shutdown...")  # happens at shutdown
+
+
+
 app = FastAPI(
-    title="FastAPI Gemini Ai App"
+    title="FastAPI Gemini Ai App",
+    lifespan=lifespan
 )
 
+app.include_router(auth_routers)
+app.include_router(chat_routers)
 
 
-# Ai Configuration
-def load_system_prompt():
-    try:
-        with open('src/prompts/system-prompt.md') as f:
-            return f.read()
-    except Exception as e:
-        raise Exception(f'Error: {str(e)}')
-
-system_prompt = load_system_prompt()
-gemini_api_key = settings.GEMINI_API_KEY
-
-if not gemini_api_key:
-    raise ValueError("GEMINI_API_KEY environment variable not set.")
-
-ai_platform = Gemini(api_key=gemini_api_key, system_prompt=system_prompt)
 
 
-# Pydantic Models
-class ChatRequest(BaseModel):
-    prompt: str
 
 
-class ChatResponse(BaseModel):
-    response: str
-
-
-# API Endpoints
-@app.post('/chat', response_model=ChatResponse)
-def char(request: ChatRequest):
-    response_text = ai_platform.chat(request.prompt)
-    return ChatResponse(response=response_text)
