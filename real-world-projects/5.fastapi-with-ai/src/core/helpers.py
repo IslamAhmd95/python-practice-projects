@@ -1,16 +1,21 @@
 from typing import Optional
 
+import openai  #pyright: ignore[reportMissingImports]
 from fastapi import HTTPException, status
 from sqlmodel import select, Session
 
 from src.models.user import User
 from src.ai.gemini import Gemini
+from src.ai.openai import OpenAI
+from src.ai.groq import GroqAI
 from src.core.config import settings
 from src.core.enums import AIModels
 
 
 PLATFORM_MAP = {
-    AIModels.GEMINI: Gemini
+    AIModels.GEMINI: Gemini,
+    AIModels.OPENAI: OpenAI,
+    AIModels.GROQ: GroqAI,
 }
 
 
@@ -51,7 +56,6 @@ def get_ai_platform(model_name: AIModels):
     system_prompt = load_system_prompt()
 
     platform_class = PLATFORM_MAP.get(model_name)
-
     if not platform_class:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, 
@@ -61,6 +65,20 @@ def get_ai_platform(model_name: AIModels):
     api_key_setting_name = f"{model_name.value.upper()}_API_KEY"
     api_key = getattr(settings, api_key_setting_name, None)
     if not api_key:
-        raise ValueError(f"API KEY environment variable for {model_name} not set.")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"API key environment variable for {model_name} not set."
+        )
     
-    return platform_class(api_key=api_key, system_prompt=system_prompt)
+    try:
+        return platform_class(api_key=api_key, system_prompt=system_prompt)
+    except openai.RateLimitError as e:
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail=f"Error occurred: {str(e)}"
+        )
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error occurred: {str(e)}"
+        )

@@ -3,4 +3,6 @@ from enum import Enum
 
 
 class AIModels(str, Enum):
-    GEMINI="Gemini"
+    GEMINI="gemini"
+    GROQ = "groq"
+    OPENAI="openai"
