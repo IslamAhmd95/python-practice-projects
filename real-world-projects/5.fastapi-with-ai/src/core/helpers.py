@@ -55,7 +55,7 @@ def get_ai_platform(model_name: AIModels):
     if not platform_class:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, 
-            detail=f"AI platform '{model_name}' not found."
+            detail=f"AI platform '{model_name.value.upper()}' not found."
         )
 
     api_key_setting_name = f"{model_name.value.upper()}_API_KEY"

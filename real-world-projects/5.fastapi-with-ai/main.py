@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from src.api.auth import router as auth_routers
-from src.api.chat import router as chat_routers
+from src.api.ai import router as ai_routers
 
 
 @asynccontextmanager  # Special decorator to manage the lifecycle to create an asynchronous context manager
@@ -21,7 +21,7 @@ app = FastAPI(
 )
 
 app.include_router(auth_routers)
-app.include_router(chat_routers)
+app.include_router(ai_routers)
 
 
 

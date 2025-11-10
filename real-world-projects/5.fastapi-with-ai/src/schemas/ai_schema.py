@@ -1,3 +1,5 @@
+from typing import List
+
 from pydantic import BaseModel
 from src.core.enums import AIModels
 
@@ -9,3 +11,7 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     response: str
+
+
+class GetPlatforms(BaseModel):
+    platforms: List[AIModels]
