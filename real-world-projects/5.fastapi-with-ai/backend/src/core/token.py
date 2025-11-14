@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta, timezone
 
-from fastapi import HTTPException  # pyright: ignore[reportMissingImports]
-import jwt  # pyright: ignore[reportMissingImports]
-from jwt.exceptions import InvalidTokenError, ExpiredSignatureError  # pyright: ignore[reportMissingImports]
+from fastapi import HTTPException  
+import jwt  
+from jwt.exceptions import InvalidTokenError, ExpiredSignatureError  
 
 from src.core.config import settings
 from src.schemas.auth_schema import TokenData

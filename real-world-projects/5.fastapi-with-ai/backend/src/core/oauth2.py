@@ -1,7 +1,7 @@
 from typing import Annotated
 
-from fastapi import Depends, HTTPException, status # pyright: ignore[reportMissingImports]
-from fastapi.security import OAuth2PasswordBearer  # pyright: ignore[reportMissingImports]
+from fastapi import Depends, HTTPException, status 
+from fastapi.security import OAuth2PasswordBearer  
 from sqlmodel import select, Session
 from src.core.database import get_db
 

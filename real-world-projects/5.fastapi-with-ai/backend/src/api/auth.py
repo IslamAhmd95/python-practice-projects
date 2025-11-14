@@ -1,6 +1,5 @@
-from fastapi import APIRouter, Depends, status, Form, HTTPException   # pyright: ignore[reportMissingImports]
+from fastapi import APIRouter, Depends, status
 from sqlmodel import Session
-from pydantic import EmailStr
 
 from src.core.database import get_db
 from src.repositories import auth_repository
@@ -21,17 +20,8 @@ def sign_up(data: SignUpSchema, db: Session = Depends(get_db)):
 
 
 @router.post('/login', response_model=AfterLoginSchema, status_code=status.HTTP_200_OK)
-def login(
-    username: str | None = Form(None),
-    email: EmailStr | None = Form(None),
-    password: str = Form(...),
-    db: Session = Depends(get_db)
-):
-    if not username and not email:
-        raise HTTPException(status_code=400, detail="Username or email required")
-    
-    schema = LoginSchema(login=username or email, password=password)
+def login(schema: LoginSchema, db: Session = Depends(get_db)):
     user, access_token = auth_repository.login(schema, db)
-    
     return {"user": UserReadSchema.model_validate(user), "access_token": access_token, "token_type": "bearer"}
+
 

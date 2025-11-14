@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
+from fastapi import FastAPI  
+from fastapi.middleware.cors import CORSMiddleware  
 
 from src.api.auth import router as auth_routers
 from src.api.ai import router as ai_routers
@@ -17,6 +18,19 @@ async def lifespan(app: FastAPI):   # means the whole lifespan of my app from st
 app = FastAPI(
     title="FastAPI Gemini Ai App",
     lifespan=lifespan
+)
+
+origins = [
+    "http://localhost:8081",  # Your frontend's local URL
+    "http://127.0.0.1:8081",  # Another way the browser might reference localhost
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,         # which sites can talk to backend
+    allow_credentials=True,
+    allow_methods=["*"],           # GET, POST, PUT, DELETE...
+    allow_headers=["*"],           # Authorization, Content-Type...
 )
 
 app.include_router(auth_routers)

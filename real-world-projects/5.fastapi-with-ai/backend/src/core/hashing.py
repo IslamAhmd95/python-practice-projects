@@ -1,4 +1,4 @@
-from pwdlib import PasswordHash  # pyright: ignore[reportMissingImports]
+from pwdlib import PasswordHash
 
 
 password_hash = PasswordHash.recommended()
