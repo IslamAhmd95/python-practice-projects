@@ -12,10 +12,12 @@ from src.core.config import settings
 from src.core.enums import AIModels
 
 
+SYSTEM_PROMPT = None
+
 PLATFORM_MAP = {
     AIModels.GEMINI: Gemini,
-    AIModels.OPENAI: OpenAI,
     AIModels.GROQ: GroqAI,
+    # AIModels.OPENAI: OpenAI,
 }
 
 
@@ -35,20 +37,20 @@ def check_username_exists(username: str, db: Session, user: Optional[User] = Non
     return db.scalar(query)
 
 
+
 def load_system_prompt():
-    try:
-        with open('src/prompts/system-prompt.md') as f:
-            return f.read()
-    except FileNotFoundError as e:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
-            detail=f'Missing system prompt file: {str(e)}'
-        )
-    except Exception as e:
-         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, 
-            detail=f'Error loading prompt: {str(e)}'
-        )
+    global SYSTEM_PROMPT
+    if SYSTEM_PROMPT is None:
+        try:
+            with open('src/prompts/system-prompt.md', "r") as f:
+                SYSTEM_PROMPT = f.read()
+        except Exception as e:
+            raise HTTPException(
+                status_code=500,
+                detail=f"Error loading system prompt: {str(e)}"
+            )
+
+    return SYSTEM_PROMPT
 
     
 
