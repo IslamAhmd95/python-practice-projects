@@ -4,7 +4,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware  
 
 from src.api.auth import router as auth_routers
-from src.api.ai import router as ai_routers
+from src.api.chat import router as chat_routers
 
 
 @asynccontextmanager  # Special decorator to manage the lifecycle to create an asynchronous context manager
@@ -34,4 +34,4 @@ app.add_middleware(
 )
 
 app.include_router(auth_routers)
-app.include_router(ai_routers)
+app.include_router(chat_routers)

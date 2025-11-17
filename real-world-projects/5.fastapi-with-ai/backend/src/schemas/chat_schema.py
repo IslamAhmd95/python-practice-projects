@@ -5,7 +5,13 @@ from pydantic import BaseModel, ConfigDict, Field
 from src.core.enums import AIModels
 
 
+
 class ChatRequest(BaseModel):
+    model_name: AIModels = AIModels.GEMINI
+    prompt: str = Field(max_length=5000)
+
+
+class WebSocketMessage(BaseModel):
     model_name: AIModels = AIModels.GEMINI
     prompt: str = Field(max_length=5000)
 

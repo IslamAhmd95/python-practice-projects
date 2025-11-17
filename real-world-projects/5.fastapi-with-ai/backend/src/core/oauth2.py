@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import Depends, HTTPException, status 
+from fastapi import Depends, HTTPException, status, WebSocket
 from fastapi.security import OAuth2PasswordBearer  
 from sqlmodel import select, Session
 from src.core.database import get_db
@@ -26,3 +26,17 @@ def get_current_user(token_str: Annotated[str, Depends(oauth2_scheme)], db: Sess
         raise credentials_exception
 
     return user
+
+
+async def authenticate_websocket(websocket: WebSocket):
+    token = websocket.query_params.get("token")
+    if not token:
+        await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
+        return None
+
+    try:
+        token_data = verify_access_token(token, None)
+        return token_data
+    except Exception:
+        await websocket.close(code=status.WS_1008_POLICY_VIOLATION)
+        return None

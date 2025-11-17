@@ -26,7 +26,6 @@
     Builds directly on Redis knowledge
     Helps you understand TTL, keys, performance
     Perfect prep before Celery
-    4️⃣ Background Tasks (Celery + Redis)
 
 4️⃣ Background Tasks (Celery + Redis)
     Why now?

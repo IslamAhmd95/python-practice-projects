@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, timezone
 
-from fastapi import HTTPException  
+from fastapi import HTTPException, status
 import jwt  
 from jwt.exceptions import InvalidTokenError, ExpiredSignatureError  
 
@@ -33,7 +33,7 @@ def verify_access_token(token: str, credentials_exception):
             raise credentials_exception
         return TokenData(email=email)
     except ExpiredSignatureError:
-        raise HTTPException(status_code=401, detail="Token has expired")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token has expired")
     except InvalidTokenError:
         raise credentials_exception
     
