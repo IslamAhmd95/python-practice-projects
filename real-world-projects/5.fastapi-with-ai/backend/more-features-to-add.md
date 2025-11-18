@@ -4,15 +4,9 @@
 2. oauth2 and jwt
 3. Add Gemini, OpenAI and groq
 4. add the ui using react
+5. realtime chat with the model
 
                             ----
-
-1️⃣ WebSockets / SSE (Realtime Chat)
-    Why first?
-    You already have chat → easiest to integrate now
-    Requires async understanding before diving into Redis tasks
-    Makes your project immediately feel more “advanced”
-    This single feature makes your project look senior-level.
 
 2️⃣ Rate Limiting with Redis
     Why second?
