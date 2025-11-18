@@ -34,40 +34,38 @@ async def websocket_endpoint(websocket: WebSocket):
     if not token_data:
         return
 
-    # open a DB session that will be used for saving chat_history
     with Session(engine) as db:
         user = get_user_from_token(db, token_data.email)
         if user is None:
             await websocket.close(code=status.WS_1008_POLICY_VIOLATION)  # policy violation
             return
 
+    try:
+        while True:
+            raw_data = await websocket.receive_json()
+            data = await parse_ws_message(websocket, raw_data)
+            if not data:
+                continue
 
-        try:
-            while True:
-                raw_data = await websocket.receive_json()
-                data = await parse_ws_message(websocket, raw_data)
-                if not data:
-                    continue
+            chat_record = await process_ai_request(websocket, data, user, db)
+            if not chat_record:
+                continue
 
-                chat_record = await process_ai_request(websocket, data, user, db)
-                if not chat_record:
-                    continue
+            payload = {
+                "prompt": chat_record.prompt,
+                "response": chat_record.response,
+                "created_at": chat_record.created_at.isoformat(),
+                "model_name": chat_record.model_name.value
+            }
+            await websocket.send_json(payload)
 
-                payload = {
-                    "prompt": chat_record.prompt,
-                    "response": chat_record.response,
-                    "created_at": chat_record.created_at.isoformat(),
-                    "model_name": chat_record.model_name.value
-                }
-                await websocket.send_json(payload)
+    except WebSocketDisconnect:
+        await websocket.close(code=status.WS_1000_NORMAL_CLOSURE)
+        print("Client disconnected")
 
-        except WebSocketDisconnect:
-            await websocket.close(code=status.WS_1000_NORMAL_CLOSURE)
-            print("Client disconnected")
-
-        except Exception as e:
-            await websocket.close(code=status.WS_1011_INTERNAL_ERROR)
-            print(f"Error occurred: {str(e)}")
+    except Exception as e:
+        await websocket.close(code=status.WS_1011_INTERNAL_ERROR)
+        print(f"Error occurred: {str(e)}")
 
 
 @router.get('/chat-history', response_model=ChatHistoryResponse)
