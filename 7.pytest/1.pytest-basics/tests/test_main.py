@@ -1,5 +1,5 @@
 import main
-import pytest   # pyright: ignore[reportMissingImports]
+import pytest
 
 
 
