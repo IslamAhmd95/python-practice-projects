@@ -1,0 +1,34 @@
+## Commands
+
+- `django-admin startproject myproject .`  # dot for creating one myproject/ folder not outer and inner ones
+
+- `python manage.py startapp myapp`  # for creating myapp
+
+- `python manage.py runserver`   # for running server
+
+- `python manage.py makemigrations`  # make migrations from the models
+
+- `python manage.py migrate`  # migrate migrations to the db
+
+- `python manage.py shell`  # to run interactive shell
+
+
+
+
+
+
+## steps
+
+1. register myapp, 'myapp/apps.py' to 'myproject/settings.py::INSTALLED_APPS',
+2. add view function
+3. create myapp/urls.py and bind the url to views function
+4. regiter myapp/urls.py into global urls myproject/urls.py
+5. add models then run makemigrations and migrate
+
+
+
+
+## errors
+
+- sudo kill -9 $(sudo lsof -t -i:8000)   # kill process on port 8000
+
