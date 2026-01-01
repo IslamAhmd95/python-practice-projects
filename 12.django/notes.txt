@@ -12,6 +12,8 @@
 
 - `python manage.py shell`  # to run interactive shell
 
+- `python manage.py createsuperuser`  # create superadmin for the admin dashboard
+
 
 
 
@@ -24,6 +26,8 @@
 3. create myapp/urls.py and bind the url to views function
 4. regiter myapp/urls.py into global urls myproject/urls.py
 5. add models then run makemigrations and migrate
+6. create templates and pass db object to it through views functions
+7. add 'Tour' model to admin.py
 
 
 
