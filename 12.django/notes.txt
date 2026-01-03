@@ -28,7 +28,10 @@
 5. add models then run makemigrations and migrate
 6. create templates and pass db object to it through views functions
 7. add 'Tour' model to admin.py
-
+8. 
+    8.1 create static/{js/, styles/, images/} inside the app
+    8.2 configuration on 'settings.py'
+    8.3 show static files to index.html
 
 
 

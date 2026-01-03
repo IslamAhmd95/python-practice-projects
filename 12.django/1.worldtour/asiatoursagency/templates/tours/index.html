@@ -1,9 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Asia Tours Agency</title>
+    <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
 </head>
 <body>
     <ul>
@@ -11,5 +13,8 @@
         <li>{{ tour }}</li>
         {% endfor %}
     </ul>
+    
+    <script src="{% static 'js/script.js' %}"></script>
+    <img src="{% static 'images/dlogo.jpeg' %}" alt="Django Logo">
 </body>
 </html>
