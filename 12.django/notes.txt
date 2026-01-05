@@ -32,6 +32,9 @@
     8.1 create static/{js/, styles/, images/} inside the app
     8.2 configuration on 'settings.py'
     8.3 show static files to index.html
+9.
+    9.1 create form class
+    9.2 use this form data inside the template and the views functions
 
 
 
