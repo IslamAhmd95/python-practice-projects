@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'styles/styles.css' %}">
+    {% comment %} style for login error message {% endcomment %}
+     <style>
+        .error {
+            color: red;
+        }
+     </style>
+</head>
+<body>
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{next}}">
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+    
+    <p>Don't have an account ? <span><a href="{% url 'register' %}">Register</a></span></p>
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>

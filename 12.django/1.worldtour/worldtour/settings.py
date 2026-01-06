@@ -122,3 +122,6 @@ STATIC_URL = 'static/'   # for static files images, js, styles
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),  # look for any static folder inside the apps or the project's root
 )
+
+
+LOGIN_REDIRECT_URL = 'home'
