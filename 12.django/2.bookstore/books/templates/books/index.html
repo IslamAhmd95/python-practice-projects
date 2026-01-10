@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books List</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+    <section class="py-10">
+        <div class="flex flex-col items-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-3 tracking-tight">Books List</h1>
+            <p class="text-lg text-gray-500">A curated list of our books collection</p>
+        </div>
+
+        <div class="grid grid-cols-4 gap-4 mt-10">
+
+            {% for book in books %}
+            <a href="{% url 'book_detail' book.id %}" class="justify-self-center text-center my-4" target="_blank">
+
+                <div class="flex justify-center">
+                    <img src="{{ book.thumbnail_url}}" alt="{{ book.title }}" width="100">
+                </div>
+
+            </a>
+            <caption class="text-lg text-gray-700">{{ book.title }}</caption>
+            {% endfor %}
+
+        </div>
+    </section>
+</body>
+</html>

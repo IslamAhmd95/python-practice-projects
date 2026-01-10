@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book details</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <section class="max-w-3xl mx-auto py-12 px-6 bg-white rounded-lg shadow-lg mt-10">
+        <div class="flex flex-col md:flex-row gap-8 items-center">
+            <div class="flex-shrink-0 p-4 bg-gray-100 rounded-lg">
+                <img src="{{ book.thumbnail_url }}" alt="{{ book.title }}" class="w-48 h-64 object-cover rounded-md shadow-sm">
+            </div>
+            <div class="flex-1 space-y-3">
+                <h1 class="text-4xl font-bold text-gray-800 mb-2 text-center md:text-left">{{ book.title }}</h1>
+                <p class="text-lg text-gray-700"><span class="font-semibold">Page count:</span> {{ book.page_count }}</p>
+                <p class="text-gray-600"><span class="font-semibold">Short description:</span> {{ book.short_description }}</p>
+                <div>
+                    <span class="font-semibold text-gray-700">Long description:</span>
+                    <p class="text-gray-700 whitespace-pre-line mt-1">{{ book.long_description }}</p>
+                </div>
+            </div>
+        </div>
+
+        {% if messages %}
+            <ul class="mt-5 space-y-2">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="px-3 py-2 rounded {{ message.tags }} bg-green-100 text-green-800"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <div class="mt-10 p-6 bg-gray-50 rounded shadow">
+            <h2 class="text-xl font-semibold mb-3 text-gray-800">Add a Review</h2>
+            <form action="{% url 'review_create' book.id %}" method="POST" class="space-y-4">
+                {% csrf_token %}
+                <textarea
+                    name="body"
+                    id="body"
+                    rows="4"
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+                    placeholder="Write your review here..."
+                >{% if request.POST.body %}{{ request.POST.body }}{% endif %}</textarea>
+                <button
+                    type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded transition"
+                >Submit</button>
+            </form>
+        </div>
+
+        {% if book.reviews.all %}
+            <div class="mt-12">
+                <h2 class="text-xl font-semibold mb-4 text-gray-800">Reviews</h2>
+                <ul class="space-y-3">
+                    {% for review in book.reviews.all|dictsortreversed:"id" %}
+                        <li class="bg-gray-100 border-l-4 border-blue-500 p-4 rounded shadow-sm">{{ review.body }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </section>
+</body>
+</html>
