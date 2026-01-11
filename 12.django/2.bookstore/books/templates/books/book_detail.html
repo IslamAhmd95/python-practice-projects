@@ -49,16 +49,16 @@
             </form>
         </div>
 
-        {% if book.reviews.all %}
-            <div class="mt-12">
-                <h2 class="text-xl font-semibold mb-4 text-gray-800">Reviews</h2>
-                <ul class="space-y-3">
-                    {% for review in book.reviews.all|dictsortreversed:"id" %}
-                        <li class="bg-gray-100 border-l-4 border-blue-500 p-4 rounded shadow-sm">{{ review.body }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
+        <div class="mt-12">
+            <h2 class="text-xl font-semibold mb-4 text-gray-800">Reviews</h2>
+            <ul class="space-y-3">
+                {% for review in book.ordered_reviews %}
+                    <li class="bg-gray-100 border-l-4 border-blue-500 p-4 rounded shadow-sm">{{ review.body }}</li>
+                {% empty %}
+                    <li class="text-gray-500">No reviews yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
     </section>
 </body>
 </html>

@@ -19,4 +19,5 @@ class Book(models.Model):
 class Review(models.Model):
     body = models.TextField()
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name= 'reviews')
+    created_at = models.DateTimeField(auto_now=True)
     

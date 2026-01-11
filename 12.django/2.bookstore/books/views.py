@@ -1,31 +1,30 @@
 import os
 import json
 
+from django.db.models import Prefetch
 from django.http import HttpResponse
 from django.shortcuts import redirect, render, get_object_or_404
 from pathlib import Path
 from django.contrib import messages
+from django.views.generic import ListView, DetailView
 
 from books.models import Book, Review
 
 
-books_file_path = os.path.join(Path(__file__).resolve().parent.parent, 'books.json')
-with open(books_file_path, 'r', encoding='utf-8') as f:
-    books = json.load(f)
+
+class BookListView(ListView):
+    def get_queryset(self):
+        return Book.objects.all()
 
 
-# Create your views here.
-def index(request):
-    books = Book.objects.all()
-    return render(request, 'books/index.html', {'books': books})
-
-
-def show(request, pk):
-    # book = next((book for book in books if str(book['id']) == str(id)), None)
-
-    book = get_object_or_404(Book, pk=pk)
-    return render(request, 'books/show.html', {'book': book})
-
+class BookDetailView(DetailView):
+    def get_queryset(self):
+        return Book.objects.prefetch_related(
+            Prefetch('reviews',
+            queryset=Review.objects.order_by('-created_at'),
+            to_attr='ordered_reviews')
+        ).all()
+        
 
 def create(request):
     return HttpResponse('create view')

@@ -15,7 +15,7 @@
 
         <div class="grid grid-cols-4 gap-4 mt-10">
 
-            {% for book in books %}
+            {% for book in book_list %}
             <a href="{% url 'book_detail' book.id %}" class="justify-self-center text-center my-4" target="_blank">
 
                 <div class="flex justify-center">
