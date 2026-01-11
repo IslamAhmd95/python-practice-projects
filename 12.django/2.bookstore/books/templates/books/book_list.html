@@ -1,12 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Books List</title>
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-</head>
-<body>
+{% extends 'books/layout.html' %}
+
+{% block title %} Books List {% endblock  %}
+
+{% block content %}
     <section class="py-10">
         <div class="flex flex-col items-center mb-8">
             <h1 class="text-4xl font-bold text-gray-800 mb-3 tracking-tight">Books List</h1>
@@ -28,5 +24,4 @@
 
         </div>
     </section>
-</body>
-</html>
+{% endblock  %}

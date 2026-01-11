@@ -1,4 +1,3 @@
-import os
 import json
 
 from django.db.models import Prefetch
@@ -11,20 +10,19 @@ from django.views.generic import ListView, DetailView
 from books.models import Book, Review
 
 
-
 class BookListView(ListView):
     def get_queryset(self):
         return Book.objects.all()
 
 
 class BookDetailView(DetailView):
-    def get_queryset(self):
-        return Book.objects.prefetch_related(
-            Prefetch('reviews',
-            queryset=Review.objects.order_by('-created_at'),
-            to_attr='ordered_reviews')
-        ).all()
-        
+    model = Book
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['reviews'] = context['book'].reviews.order_by('-created_at')
+        return context
+
 
 def create(request):
     return HttpResponse('create view')
