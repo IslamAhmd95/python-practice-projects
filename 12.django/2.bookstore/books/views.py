@@ -12,8 +12,10 @@ from books.models import Book, Review
 
 class BookListView(ListView):
     def get_queryset(self):
+        author_name = self.kwargs.get('name')
+        if author_name:
+            return Book.objects.filter(authors__name=author_name)
         return Book.objects.all()
-
 
 class BookDetailView(DetailView):
     model = Book
@@ -21,6 +23,7 @@ class BookDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['reviews'] = context['book'].reviews.order_by('-created_at')
+        context['authors'] = context['book'].authors.order_by('name')
         return context
 
 

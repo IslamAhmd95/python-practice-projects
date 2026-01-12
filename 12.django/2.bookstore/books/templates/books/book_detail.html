@@ -11,6 +11,11 @@
             <div class="flex-1 space-y-3">
                 <h1 class="text-4xl font-bold text-gray-800 mb-2 text-center md:text-left">{{ book.title }}</h1>
                 <p class="text-lg text-gray-700"><span class="font-semibold">Page count:</span> {{ book.page_count }}</p>
+                <p class="text-lg text-gray-700"><span class="font-semibold">Authors:</span> 
+                    {% for author in authors %}
+                        <a href="{% url 'author_books' author.name %}">{{ author.name }}</a>{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </p>
                 <p class="text-gray-600"><span class="font-semibold">Short description:</span> {{ book.short_description }}</p>
                 <div>
                     <span class="font-semibold text-gray-700">Long description:</span>
